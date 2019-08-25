@@ -16,28 +16,52 @@ namespace DAL
             new Student() { StudentId = 3, StudentName = "abdullah"} ,
         }; 
 
-        public void Add(string StudentName)
+        public List<Student> AddStudent(string StudentName)
         {
             Student newStudent = new Student { StudentName = StudentName, StudentId = (studentsList.Count + 1) };
             studentsList.Add(newStudent);
+            return (studentsList);
         }
 
-        public void Edit(Student Student)
+        public Student ViewEditStudent(int? Id)
+        {
+            Student selectedStudent;
+            if (Id != null)
+            {
+                if (Id != 0)
+                {
+                    selectedStudent = studentsList.Where(s => s.StudentId == Id).FirstOrDefault();
+                }
+                else
+                {
+                    studentsList.Add(new Student { StudentId = Id.Value, StudentName = "khaled" });
+                    selectedStudent = studentsList.Where(s => s.StudentId == Id).FirstOrDefault();
+                }
+            }
+            else
+            {
+                selectedStudent = new Student { StudentId = 9, StudentName = "idris" };
+            }
+            return (selectedStudent);
+        }
+
+        public List<Student> EditStudent(Student Student)
         {
             studentsList.Where(s => s.StudentId == Student.StudentId).FirstOrDefault().StudentName = Student.StudentName;
+            return (studentsList);
         }
 
-        public void Delete(int Id)
+        public void DeleteStudent(int Id)
         {
             studentsList.Remove(studentsList.Single(s => s.StudentId == Id));
         }
 
-        public List<Student> GetAll()
+        public List<Student> GetAllStudent()
         {
             return (studentsList);
         }
 
-        public Student GetById(int Id)
+        public Student GetStudentById(int Id)
         {   
             return (studentsList.Where(s=>s.StudentId == Id).FirstOrDefault());
         }

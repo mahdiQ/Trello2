@@ -11,29 +11,40 @@ namespace BLL
     public class BllClass
     {
         public static DalClass dalClass = new DalClass();
-        public void Add(string StudentName)
+        static List<Student> studentList = dalClass.GetAllStudent();
+        public List<Student> AddStudent(string StudentName)
         {
-            dalClass.Add(StudentName);
+            List<Student> newList = dalClass.AddStudent(StudentName);
+            return (newList);
         }
 
-        public void Edit(Student Student)
+        public Student ViewEditStudent(int? Id)
         {
-            dalClass.Edit(Student);
+            Student selectedStudent;
+            selectedStudent = dalClass.ViewEditStudent(Id.Value);
+            return (selectedStudent);
         }
 
-        public void Delete(int Id)
+        public List<Student> EditStudent(Student UpdatedStudent)
         {
-            dalClass.Delete(Id);
+            List<Student> newList = new List<Student>();
+            newList = dalClass.EditStudent(UpdatedStudent);
+            return (newList);
         }
 
-        public List<Student> GetAll()
+        public void DeleteStudent(int Id)
         {
-            return (dalClass.GetAll());
+            dalClass.DeleteStudent(Id);
         }
 
-        public Student GetById(int Id)
+        public List<Student> GetAllStudent()
         {
-            return (dalClass.GetById(Id));
+            return (dalClass.GetAllStudent());
+        }
+
+        public Student GetStudentById(int Id)
+        {
+            return (dalClass.GetStudentById(Id));
         }
     }
 }
