@@ -23,19 +23,7 @@ textarea {
     max-width: 280px;
 }
 
-.sidebar {
-    width: 160px;
-    padding: 20px;
-    height: 100%;
-    position: fixed;
-    background-color: #222222;
-    z-index: 1;
-}
 
-.sidebar a {
-    font-size: 25px;
-    color: #818181;
-}
 .main{
     margin-left:160px;
 }
