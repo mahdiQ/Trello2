@@ -23,28 +23,6 @@ namespace DAL
             return (studentsList);
         }
 
-        public Student ViewEditStudent(int? Id)
-        {
-            Student selectedStudent;
-            if (Id != null)
-            {
-                if (Id != 0)
-                {
-                    selectedStudent = studentsList.Where(s => s.StudentId == Id).FirstOrDefault();
-                }
-                else
-                {
-                    studentsList.Add(new Student { StudentId = Id.Value, StudentName = "khaled" });
-                    selectedStudent = studentsList.Where(s => s.StudentId == Id).FirstOrDefault();
-                }
-            }
-            else
-            {
-                selectedStudent = new Student { StudentId = 9, StudentName = "idris" };
-            }
-            return (selectedStudent);
-        }
-
         public List<Student> EditStudent(Student Student)
         {
             studentsList.Where(s => s.StudentId == Student.StudentId).FirstOrDefault().StudentName = Student.StudentName;

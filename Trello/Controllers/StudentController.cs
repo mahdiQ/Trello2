@@ -22,52 +22,47 @@ namespace Trello.Controllers
             return View(studentList);
         }
 
-        public ActionResult Edit(int? Id)
+        public ActionResult Save(int? Id)
         {
-            Student selectedStudent;
-            selectedStudent = bllClass.ViewEditStudent(Id);
-            return View(selectedStudent);
-        }
-        [HttpPost]
-        public ActionResult Edit(Student Student)
-        {
-            if (ModelState.IsValid)
+            if (Id == null || Id == 0)
             {
-                if (studentList.Where(s => s.StudentName == Student.StudentName).FirstOrDefault() != null)
-                {
-                    ModelState.AddModelError(string.Empty, "Student Name already exists.");
-                    return View();
-                }
-                else
-                {
-                    studentList = bllClass.EditStudent(Student);
-                }
+                return View("Create");
             }
-            return View("Index", studentList);
-        }
-        public ActionResult Create()
-        {
-            return View();
+            else
+            {
+                Student selectedStudent;
+                selectedStudent = bllClass.GetStudentById(Id.Value);
+                selectedStudent.CurrentName = selectedStudent.StudentName; 
+                return View("Edit", selectedStudent);
+            }
+
         }
 
         [HttpPost]
-        public ActionResult Create(string StudentName)
+        public ActionResult Save(Student Student)
         {
             if (ModelState.IsValid)
             {
-                if (studentList.Where(s => s.StudentName == StudentName).FirstOrDefault() != null)
+                if (Student.StudentName != Student.CurrentName && studentList.Where(s => s.StudentName == Student.StudentName).FirstOrDefault() != null)
                 {
                     ModelState.AddModelError(string.Empty, "Student Name already exists.");
-                    return View();
+                    return View("Edit");
                 }
                 else
                 {
-                    //change to Dal
-                    studentList = bllClass.AddStudent(StudentName);
+                    if (Student.StudentId == 0)
+                    {
+                        studentList = bllClass.AddStudent(Student.StudentName);
+                    }
+                    else
+                    {
+                        studentList = bllClass.EditStudent(Student);
+                    }
                 }
             }
-            return View("Index", studentList);
+            return RedirectToAction("Index");
         }
+
         [HttpGet]
         public ActionResult Delete(int Id)
         {
@@ -79,10 +74,9 @@ namespace Trello.Controllers
         {
             if (Id != null)
             {
-                //change to Dal
                 bllClass.DeleteStudent(Id.Value);
             }
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

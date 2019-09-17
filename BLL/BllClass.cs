@@ -18,13 +18,6 @@ namespace BLL
             return (newList);
         }
 
-        public Student ViewEditStudent(int? Id)
-        {
-            Student selectedStudent;
-            selectedStudent = dalClass.ViewEditStudent(Id.Value);
-            return (selectedStudent);
-        }
-
         public List<Student> EditStudent(Student UpdatedStudent)
         {
             List<Student> newList = new List<Student>();

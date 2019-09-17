@@ -13,5 +13,7 @@ namespace DAL.BusinessModels
         [Required]
         [MinLength(5)]
         public string StudentName { set; get; }
+
+        public string CurrentName { set; get; }
     }
 }
