@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DalClass.cs" />
+    <Compile Include="BusinessModels\PagedList.cs" />
+    <Compile Include="BusinessModels\PagingModel.cs" />
+    <Compile Include="StudentDal.cs" />
     <Compile Include="BusinessModels\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

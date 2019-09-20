@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Trello.Models
 {
-    public class Student
+    class Student
     {
         public Student()
         {

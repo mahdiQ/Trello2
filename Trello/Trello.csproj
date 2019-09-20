@@ -157,7 +157,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ContentInfo.cs" />
-    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\ViewStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +208,8 @@
     <Content Include="Views\Shared\_TrelloLayout.cshtml" />
     <Content Include="Views\Shared\_TrelloNavBar.cshtml" />
     <Content Include="Views\Shared\_LayoutNew.cshtml" />
+    <Content Include="Views\Shared\Pagination.cshtml" />
+    <Content Include="Views\Student\_StudentsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

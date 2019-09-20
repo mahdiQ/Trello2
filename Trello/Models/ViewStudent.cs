@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using DAL.BusinessModels;
 
-namespace DAL.BusinessModels
+namespace Trello.Models
 {
-    public class Student  
+    public class ViewStudent
     {
         public int StudentId { set; get; }
+
         [Required]
         [MinLength(5)]
         public string StudentName { set; get; }
 
-            
-        
     }
 }

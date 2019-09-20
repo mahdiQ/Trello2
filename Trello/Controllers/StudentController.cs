@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 //using Trello.Models;
 using Trello.Filters;
+using Trello.Models;
 using BLL;
 using DAL;
 using DAL.BusinessModels;
@@ -15,48 +16,55 @@ namespace Trello.Controllers
     public class StudentController : Controller
     {
         // GET: Student
-        static BllClass bllClass = new BllClass();
-        static List<Student> studentList = bllClass.GetAllStudent();
+        private StudentBll _StudentBLL = new StudentBll();
         public ActionResult Index()
         {
-            return View(studentList);
+            var StudentsList = _StudentBLL.GetAll();
+            return View(StudentsList);
+        }
+        [HttpPost]
+        public ActionResult Paging(int currentPage)
+        {
+            var studentList = _StudentBLL.GetAll(currentPage);
+            return PartialView("_StudentsList", studentList);
         }
 
-        public ActionResult Save(int? Id)
+        public ActionResult Edit(int? Id)
         {
-            if (Id == null || Id == 0)
+            if (Id != null)
             {
-                return View("Create");
+                var selectedStudent = _StudentBLL.GetById(Id.Value);
+                return View(selectedStudent);
             }
             else
             {
-                Student selectedStudent;
-                selectedStudent = bllClass.GetStudentById(Id.Value);
-                selectedStudent.CurrentName = selectedStudent.StudentName; 
-                return View("Edit", selectedStudent);
+                var newStd = new Student();
+                return View(newStd);
             }
 
         }
 
         [HttpPost]
-        public ActionResult Save(Student Student)
+        public ActionResult Edit(Student Student)
         {
             if (ModelState.IsValid)
             {
-                if (Student.StudentName != Student.CurrentName && studentList.Where(s => s.StudentName == Student.StudentName).FirstOrDefault() != null)
+                var studentList = _StudentBLL.GetAll().TableList;
+                var OldStd = studentList.Exists(s => s.StudentName == Student.StudentName && s.StudentId != Student.StudentId);
+                if (OldStd)
                 {
                     ModelState.AddModelError(string.Empty, "Student Name already exists.");
-                    return View("Edit");
+                    return View();
                 }
                 else
                 {
                     if (Student.StudentId == 0)
                     {
-                        studentList = bllClass.AddStudent(Student.StudentName);
+                        Student = _StudentBLL.Add(Student.StudentName);
                     }
                     else
                     {
-                        studentList = bllClass.EditStudent(Student);
+                        _StudentBLL.Edit(Student);
                     }
                 }
             }
@@ -66,7 +74,7 @@ namespace Trello.Controllers
         [HttpGet]
         public ActionResult Delete(int Id)
         {
-            Student selectedStudent = studentList.Where(s => s.StudentId == Id).FirstOrDefault();
+            var selectedStudent = _StudentBLL.GetById(Id);
             return View(selectedStudent);
         }
         [HttpPost]
@@ -74,7 +82,7 @@ namespace Trello.Controllers
         {
             if (Id != null)
             {
-                bllClass.DeleteStudent(Id.Value);
+                var std = _StudentBLL.Delete(Id.Value);
             }
             return RedirectToAction("Index");
         }
